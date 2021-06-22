@@ -1,0 +1,13 @@
+GET https://localhost:5002/Repositories/repman
+Accept: application/
+
+
+###
+POST https://localhost:5002/Repositories
+Content-Type: application/json
+
+{
+  "name" : "repman"
+}
+
+###

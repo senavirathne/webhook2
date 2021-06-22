@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GithubService", "GithubService\GithubService.csproj", "{E6B760BD-0736-4190-970D-21ACE7657880}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Packagist Service", "Packagist Service\Packagist Service.csproj", "{EAE5ACC2-B9F3-4E47-87EA-569295CD5863}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E6B760BD-0736-4190-970D-21ACE7657880}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E6B760BD-0736-4190-970D-21ACE7657880}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E6B760BD-0736-4190-970D-21ACE7657880}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E6B760BD-0736-4190-970D-21ACE7657880}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EAE5ACC2-B9F3-4E47-87EA-569295CD5863}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EAE5ACC2-B9F3-4E47-87EA-569295CD5863}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EAE5ACC2-B9F3-4E47-87EA-569295CD5863}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EAE5ACC2-B9F3-4E47-87EA-569295CD5863}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

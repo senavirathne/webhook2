@@ -1,0 +1,16 @@
+GET https://localhost:5001/Packages/pac
+Accept: application/json
+
+
+###
+POST https://localhost:5001/Packages
+Content-Type: application/json
+
+{
+  "name" : "pac",
+  "organization" : "maduProduction",
+  "gitHubUrl" : "https://localhost:5002/Repositories/repman"
+  
+}
+
+###

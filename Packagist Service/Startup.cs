@@ -16,13 +16,15 @@ namespace Packagist_Service
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<PingQueueService>();
+            services.AddHostedService<PingQueueService>();
             services.AddHttpClient();
             services.AddHttpClient("GitHub", config =>
             {
                 config.BaseAddress = new Uri("https://localhost:5002");
             });
             services.AddControllers();
-           // services.AddTransient<PackagistService>();
+           services.AddTransient<PackageService>();
             services.AddSingleton<IPackagistRepository, InMemoryPackagistRepository>();
             
         }

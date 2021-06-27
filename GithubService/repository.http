@@ -11,3 +11,9 @@ Content-Type: application/json
 }
 
 ###
+PATCH https://localhost:5002/Repositories/repman
+Content-Type: application/json
+
+{
+  "content" : "xxxx"
+}

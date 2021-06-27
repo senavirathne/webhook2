@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -61,11 +62,11 @@ namespace GithubService.Controllers
             return BadRequest();
            
         }
-        [Route("{id:guid}")]
+        [Route("{name}")]
         [HttpPatch]
-        public IActionResult Edit([FromBody] EditRepositoryRequest request, [FromRoute] Guid id)
+        public async Task<IActionResult> Edit([FromBody] EditRepositoryRequest request, [FromRoute] string name)
         {
-            if ( _repositoryService.UpdateRepository(id, request.Content))
+            if (await _repositoryService.UpdateRepository(name, request.Content))
             {
                 return NoContent();
             }

@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Packagist_Service
 {
-    public abstract class GitHubRepository
+    public class GitHubRepository
     {
         public string Name { get; set; }
         public string LastCommit { get; set; }
@@ -34,11 +34,11 @@ namespace Packagist_Service
             _logger = logger;
         }
 
-        public async Task<string> Create(PackageDto packageDto)
+        public async Task<string> Create(PackageDto packageDto) // who creates 
         {
             var (name, organization) = packageDto;
             var client = _factory.CreateClient("GitHub");
-            using var response = await client.GetAsync($"/Repositories/{name}"); // <=======
+            using var response = await client.GetAsync($"/Repositories/{name}"); // <======= 
 
             // using var client = new HttpClient()
             // {
@@ -52,7 +52,7 @@ namespace Packagist_Service
                 throw new RepositoryNotFoundException(name); //  <=====dispose
             }
 
-            var content = await response.Content.ReadFromJsonAsync<GitHubRepository>();
+            var content = await response.Content.ReadFromJsonAsync<GitHubRepository>(); // json body map =>  type of gitubrepository 
 
             return _repository.Add(name, organization,
                 String.Concat(client.BaseAddress!.ToString(), $"/Repositories/{content!.Name}"), //<====== =name

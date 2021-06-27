@@ -7,34 +7,45 @@ using Microsoft.Extensions.Logging;
 
 namespace Packagist_Service.Controllers
 {
-    public record PackageRequest(string Name, string Organization, string GitHubUrl);
+    public class PackageRequest
+    {
+        public string Name { get; set; }
+        public string Organization { get; set; }
+        public string GitHugUrl { get; set; }
+    }
+
+
     //public record UpdateCommit(Guid Commit);
-    
+
     [ApiController]
     [Route("/Packages")]
     public class PackageController : Controller
     {
         private readonly ILogger<PackageController> _logger;
         private readonly PackageService _service;
-        public PackageController(ILogger<PackageController> logger, PackageService service)
+        private readonly PingQueueService _pingQueue;
+
+        public PackageController(ILogger<PackageController> logger, PackageService service, PingQueueService pingQueue)
         {
             _logger = logger;
             _service = service;
+            _pingQueue = pingQueue;
         }
-       
+
 //post
         [HttpPost]
-        public IActionResult Create([FromBody] PackageRequest packageRequest)
+        public async Task<IActionResult> Create([FromBody] PackageRequest packageRequest)
         {
             var packageDto = new PackageDto(packageRequest.Name, packageRequest.Organization);
             try
             {
-                var gitHubUrl = _service.Create(packageDto);
-          
+                var gitHubUrl =await _service.Create(packageDto);
+
 
                 _logger.LogInformation("Package {Name} is added", packageRequest.Name);
 
-                var response = new JsonResult(new {Name = packageRequest.Name, Url = gitHubUrl, Organization = packageRequest.Organization})
+                var response = new JsonResult(new
+                    {Name = packageRequest.Name, Url = gitHubUrl, Organization = packageRequest.Organization})
                 {
                     StatusCode = (int) HttpStatusCode.Created
                 };
@@ -43,7 +54,7 @@ namespace Packagist_Service.Controllers
             }
             catch (RepositoryNotFoundException e)
             {
-                _logger.LogInformation("{Message}",e.Message);
+                _logger.LogInformation("{Message}", e.Message);
                 return NotFound();
             }
         }
@@ -60,7 +71,7 @@ namespace Packagist_Service.Controllers
                 return NotFound();
             }
 
-            var response = new JsonResult(new {pac.Name, pac.Organization,pac.GitHubUrl})
+            var response = new JsonResult(new {pac.Name, pac.Organization, pac.GitHubUrl})
             {
                 StatusCode = (int) HttpStatusCode.Created
             };
@@ -71,6 +82,8 @@ namespace Packagist_Service.Controllers
         [HttpPost]
         public async Task<IActionResult> Ping([FromRoute] string name)
         {
+            _logger.LogInformation("Recieved ping for {name}",name);
+            await _pingQueue.Writer.WriteAsync(name);
             //response pong
             var pacName = new ViewPackageDto(name).Name;
             if (await _service.WebHook(pacName)) //<===last commit
@@ -79,9 +92,6 @@ namespace Packagist_Service.Controllers
             }
 
             return BadRequest();
-
         }
-
-
     }
 }
